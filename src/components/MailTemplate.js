@@ -1,15 +1,22 @@
 import React, { Component } from "react";
 import { Form, Input, Button} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Mailer } from 'nodemailer-react';
 
 export default class MailPage extends Component {
   constructor(props) {
-    super(props);
+		super(props);
+		this.sendMail = this.sendMail.bind(this);
   }
 
   onFinish(values) {
     console.log('Success:', values);
-  };
+	};
+
+	sendMail(){
+		const { sendMail } = window.require('electron').remote.require('../src/lib/sendMail');
+		sendMail();
+	}
 
   render() {
     return (
@@ -20,7 +27,7 @@ export default class MailPage extends Component {
 						name="username"
 						rules={[{ required: true, message: 'Please input your username!' }]}
 					>
-						<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+						<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
 					</Form.Item>
 					<Form.Item
 						name="password"
@@ -38,7 +45,17 @@ export default class MailPage extends Component {
 								type="primary"
 								htmlType="submit"
 							>
-								Log in
+								Test
+							</Button>
+						)}
+					</Form.Item>
+					<Form.Item shouldUpdate={true}>
+						{() => (
+							<Button
+								type="primary"
+								onClick={this.sendMail}
+							>
+								Send mail
 							</Button>
 						)}
 					</Form.Item>
